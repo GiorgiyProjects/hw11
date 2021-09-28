@@ -61,10 +61,10 @@ BOOST_AUTO_TEST_SUITE( TestSuite )
             vector<pair<int, int>> indices = I.GetFilePieces(file, N_Map);
             vector<map<string,int>> map_results;
             vector<map<string,int>> map_results_full_words;
+            mutex mut;
 
             for (int i = 0; i < N_Map; ++i) {
-                map_results.push_back(M.InterpretWordParts(file,indices[i].first, indices[i].second, 3));
-                map_results_full_words.push_back(M.InterpretFullWords(file,indices[i].first, indices[i].second, 3));
+                M.Interpret(file,indices[i].first, indices[i].second, 3, map_results, map_results_full_words, mut);
             }
             cout << "Result map" << endl;
             map<string,int> sorted_map_results = S.Sort(map_results, map_results_full_words);
@@ -89,11 +89,12 @@ BOOST_AUTO_TEST_SUITE( TestSuite )
             vector<pair<int, int>> indices = I.GetFilePieces(file, N_Map);
             vector<map<string,int>> map_results;
             vector<map<string,int>> map_results_full_words;
+            mutex mut;
 
             for (int i = 0; i < N_Map; ++i) {
-                map_results.push_back(M.InterpretWordParts(file,indices[i].first, indices[i].second, 7));
-                map_results_full_words.push_back(M.InterpretFullWords(file,indices[i].first, indices[i].second, 7));
+                M.Interpret(file,indices[i].first, indices[i].second, 7, map_results, map_results_full_words, mut);
             }
+
             cout << "Result map" << endl;
             map<string,int> sorted_map_results = S.Sort(map_results, map_results_full_words);
             for (const auto &keyval:sorted_map_results) {
@@ -104,7 +105,7 @@ BOOST_AUTO_TEST_SUITE( TestSuite )
             expected_result["one1"] = 1;
             expected_result["one11"] = 1;
             expected_result["one111"] = 1;
-            expected_result["one1111"] = 5;
+            expected_result["one1111"] = 6;
 
             BOOST_CHECK(expected_result == sorted_map_results);
         }
@@ -119,10 +120,16 @@ BOOST_AUTO_TEST_SUITE( TestSuite )
             to_reduce["one111"] = 1;
             to_reduce["one1111"] = 5;
             Reducer R;
-            BOOST_CHECK(R.Reduce(pair<int,int>(0,3),to_reduce) == true);
-            BOOST_CHECK(R.Reduce(pair<int,int>(3,5),to_reduce) == false);
+            vector<bool> result;
+            mutex mut;
+
+            R.Reduce(pair<int,int>(0,3), to_reduce, result, mut);
+            BOOST_CHECK(result[0] == true);
+            R.Reduce(pair<int,int>(3,5),to_reduce, result, mut);
+            BOOST_CHECK( result[1] == false);
             map<string,int> to_reduce2;
-            BOOST_CHECK(R.Reduce(pair<int,int>(0,3),to_reduce2) == true);
+            R.Reduce(pair<int,int>(0,3),to_reduce2,result, mut);
+            BOOST_CHECK( result[2] == true);
 
         }
     }
