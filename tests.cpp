@@ -28,13 +28,13 @@ BOOST_AUTO_TEST_SUITE( TestSuite )
 
     BOOST_FIXTURE_TEST_CASE ( input_fair_divider_test1, ArgsFixture ) {
         {
-            string file = "/home/bbrave/Desktop/OTUS/homeworks/hw11/input/test1.txt";
+            string file = "input/test1.txt";
             int N_Map = 3;
             InputFairDivider I;
             vector<pair<int, int>> indices = I.GetFilePieces(file, N_Map);
             I.Test(file, indices);
 
-            file = "/home/bbrave/Desktop/OTUS/homeworks/hw11/input/test3.txt";
+            file = "input/test3.txt";
             indices.clear();
             cout << "nmap=1" <<endl;
             indices = I.GetFilePieces(file, 1);
@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_SUITE( TestSuite )
 
     BOOST_FIXTURE_TEST_CASE ( test_mapper_and_shuffler1, ArgsFixture ) {
         {
-            string file = "/home/bbrave/Desktop/OTUS/homeworks/hw11/input/test1.txt";
+            string file = "input/test1.txt";
             int N_Map = 3;
             InputFairDivider I;
             Shuffler S;
@@ -80,7 +80,7 @@ BOOST_AUTO_TEST_SUITE( TestSuite )
 
     BOOST_FIXTURE_TEST_CASE ( test_mapper_and_shuffler2, ArgsFixture ) {
         {
-            string file = "/home/bbrave/Desktop/OTUS/homeworks/hw11/input/test2.txt";
+            string file = "input/test2.txt";
             int N_Map = 3;
             InputFairDivider I;
             Shuffler S;
@@ -136,7 +136,7 @@ BOOST_AUTO_TEST_SUITE( TestSuite )
 
     BOOST_FIXTURE_TEST_CASE ( TestMapReduce1, ArgsFixture ) {
         {
-            string file = "/home/bbrave/Desktop/OTUS/homeworks/hw11/input/test1.txt";
+            string file = "input/test1.txt";
             int N_Map = 3;
             int N_Red = 2;
             bool flag = MapReduce(2, file, N_Map, N_Red);
@@ -144,7 +144,7 @@ BOOST_AUTO_TEST_SUITE( TestSuite )
             flag = MapReduce(3, file, N_Map, N_Red);
             BOOST_CHECK(flag == true);
 
-            file = "/home/bbrave/Desktop/OTUS/homeworks/hw11/input/test2.txt";
+            file = "input/test2.txt";
             flag = MapReduce(4, file, N_Map, N_Red);
             BOOST_CHECK(flag == false);
             flag = MapReduce(10, file, N_Map, N_Red);
