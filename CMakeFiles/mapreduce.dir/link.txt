@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/mapreduce.dir/main.cpp.o -o mapreduce  -lpthread 
