@@ -33,8 +33,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: inner_outer_join
-          asset_name: inner_outer_join
+          asset_path: mapreduce
+          asset_name: mapreduce
           asset_content_type: application/vnd.debian.binary-package
       - name: Doxygen Action
         uses: mattnotmitt/doxygen-action@v1.3.1
